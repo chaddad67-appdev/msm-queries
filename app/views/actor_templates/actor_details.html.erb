@@ -1,0 +1,123 @@
+<head>
+    <!-- Expand the number of characters we can use in the document beyond basic ASCII 🎉 -->
+    <meta charset="utf-8">
+
+    <!-- Make it responsive to small screens -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" media="all" href="/assets/application-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1094.0" data-gr-ext-installed="">
+    <nav>
+      <a href="/">
+        Home
+      </a>
+    </nav>
+    
+    <h1>
+  Actor #<%= @actor.id %> details
+</h1>
+
+<a href="/actors" class="btn btn-block btn-outline-secondary">
+  Go back
+</a>
+
+&nbsp;|&nbsp;
+
+<a href="/delete_actor/<%= @actor.id %> " class="btn btn-block btn-outline-secondary">
+  Delete actor
+</a>
+
+<hr>
+
+<dl>
+  <dt>
+    Name
+  </dt>
+  <dd>
+    <%= @actor.name %>
+  </dd>
+
+  <dt>
+    Dob
+  </dt>
+  <dd>
+    <%= @actor.dob %>
+  </dd>
+
+  <dt>
+    Bio
+  </dt>
+  <dd>
+    <%= @actor.bio %>
+  </dd>
+
+  <dt>
+    Image
+  </dt>
+  <dd>
+    <img src="<%= @actor.image %>" style="width:250px;">
+  </dd>
+
+  <dt>
+    Created at
+  </dt>
+  <dd>
+    <%= time_ago_in_words(@actor.created_at) %> ago
+  </dd>
+
+  <dt>
+    Updated at
+  </dt>
+  <dd>
+    <%= time_ago_in_words(@actor.updated_at) %> ago
+  </dd>
+</dl>
+
+<hr>
+
+<h2> Filmography </h2>
+
+<table border="1">
+  <tbody><tr>
+    <th> Title </th>
+    <th> Year </th>
+    <th> Director </th>
+    <th> Character name </th>
+    <th> </th>
+  </tr>
+
+  <% @movies.each do |film| %>
+    <tr>
+        <td>
+          <%= film.title %>
+        </td>
+
+        <td>
+          <%= film.year %>
+        </td>
+
+        <td>
+          <%= Director.where({:id => film.director_id}).at(0).name %>
+        </td>
+
+        <td>
+          <% char_in_movie = Character.where({:movie_id => film.id, :actor_id => @actor.id}) %>
+          <% char_in_movie.each do |char| %>
+            <%= char.name %>
+          <% end %>
+        </td>
+
+        <td>
+          <a href="/movies/<%= film.id %>">
+            Show details
+          </a>
+        </td>
+    </tr>
+  <% end %>
+</tbody></table>
+
+  
+
+</body>
